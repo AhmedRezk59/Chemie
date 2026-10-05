@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Chemical Properties Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <span class="logo-icon">🧪</span>
+      <h1>Chemie Explorer</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><button class="nav-btn active" data-target="view-periodic">Periodic Table</button></li>
+        <li><button class="nav-btn" data-target="view-analyzer">Compound Analyzer</button></li>
+        <li><button class="nav-btn" data-target="view-stoichiometry">Stoichiometry</button></li>
+        <li><button class="nav-btn" data-target="view-ph">pH & Solutions</button></li>
+        <li><button class="nav-btn" data-target="view-ghs">GHS Hazards</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- View 1: Periodic Table -->
+    <section id="view-periodic" class="view active">
+      <div class="card">
+        <h2>Interactive Periodic Table of Elements</h2>
+        <div class="legend-container" id="legend-container"></div>
+        <div class="periodic-table-grid" id="periodic-table"></div>
+      </div>
+    </section>
+
+    <!-- View 2: Compound Analyzer -->
+    <section id="view-analyzer" class="view">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Chemical Formula & Molar Mass Analyzer</h2>
+          <div class="form-group">
+            <label for="formula-input">Enter Chemical Formula (e.g. H2SO4, Ca(OH)2, C6H12O6, CuSO4*5H2O):</label>
+            <input type="text" id="formula-input" placeholder="e.g. H2SO4" value="H2SO4">
+          </div>
+          <button id="analyze-btn" class="btn">Analyze Compound</button>
+
+          <div id="analyzer-results" style="margin-top: 1.5rem;"></div>
+        </div>
+
+        <div class="card">
+          <h2>Preset Compound Reference</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">Select a compound to inspect its chemical properties:</p>
+          <div id="compound-preset-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 3: Stoichiometry Tool -->
+    <section id="view-stoichiometry" class="view">
+      <div class="card">
+        <h2>Reaction Stoichiometry & Yield Calculator</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="reactants-input">Reactants (comma separated):</label>
+            <input type="text" id="reactants-input" value="2H2, O2">
+          </div>
+          <div class="form-group">
+            <label for="products-input">Products (comma separated):</label>
+            <input type="text" id="products-input" value="2H2O">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="given-mass">Given Mass of First Reactant (grams):</label>
+            <input type="number" id="given-mass" value="100">
+          </div>
+          <div class="form-group" style="display: flex; align-items: flex-end;">
+            <button id="calc-stoich-btn" class="btn" style="width: 100%;">Calculate Yields</button>
+          </div>
+        </div>
+        <div id="stoich-results" style="margin-top: 1.5rem;"></div>
+      </div>
+    </section>
+
+    <!-- View 4: pH & Solution Calculator -->
+    <section id="view-ph" class="view">
+      <div class="grid-2">
+        <div class="card">
+          <h2>pH & Concentration Calculator</h2>
+          <div class="form-group">
+            <label for="ph-input">Enter pH value (0 - 14):</label>
+            <input type="number" id="ph-input" step="0.1" min="0" max="14" value="7.0">
+          </div>
+          <button id="calc-ph-btn" class="btn">Calculate Concentrations</button>
+
+          <div id="ph-results" style="margin-top: 1.5rem;"></div>
+        </div>
+
+        <div class="card">
+          <h2>Molarity Dilution Calculator (C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub>)</h2>
+          <div class="form-group">
+            <label for="c1">Initial Concentration C1 (M):</label>
+            <input type="number" id="c1" step="0.01" value="1.0">
+          </div>
+          <div class="form-group">
+            <label for="v1">Initial Volume V1 (L):</label>
+            <input type="number" id="v1" step="0.01" value="0.5">
+          </div>
+          <div class="form-group">
+            <label for="c2">Target Concentration C2 (M):</label>
+            <input type="number" id="c2" step="0.01" value="0.1">
+          </div>
+          <div class="form-group">
+            <label for="v2">Target Volume V2 (L):</label>
+            <input type="number" id="v2" step="0.01" placeholder="Calculated automatically">
+          </div>
+          <button id="calc-dilution-btn" class="btn">Calculate Missing Parameter</button>
+          <div id="dilution-results" style="margin-top: 1rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 5: GHS Hazards -->
+    <section id="view-ghs" class="view">
+      <div class="card">
+        <h2>Globally Harmonized System (GHS) Chemical Safety & Hazards</h2>
+        <div class="grid-2" id="ghs-hazard-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Element Detail Modal -->
+  <div class="modal-overlay" id="element-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Scientific Chemical Properties Explorer &copy; 2026 Chemie Project. Powered by Modern Web Standards.</p>
+  </footer>
+
+  <script type="module" src="src/js/app.js"></script>
+</body>
+</html>
